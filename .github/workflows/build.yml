@@ -1,0 +1,27 @@
+name: Build Android APK with Buildozer
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # نصب ابزار بیلدوزر برای کامپایل پایتون به اندروید
+      - name: Build with Buildozer
+        uses: ArtemiePromis/buildozer-action@v1 # یا اکشن استاندارد بیلدوزر
+        with:
+          command: buildozer -v android debug
+
+      # آپلود فایل APK نهایی
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: editpro-apk
+          path: bin/*.apk
+          
